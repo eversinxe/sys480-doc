@@ -72,9 +72,21 @@ function pick_datastore()
     }
 }
 
-function pick_network([string] $vmhost_name)
+function pick_network([string] $network)
 {
-    
+    Get-NetworkAdapter | -Type Network | Select-Object Name
+    $network = Read-Host "choose the network you want to have ["$global:config.network"]"
+    Read-HostDefault($network)
+    if (!network){
+        $networkadapter = Get-NetworkAdapter -Name $global:config.network 
+    } else {
+        $networkadapter = Get-NetworkAdapter -Name $network
+    }
+    $ntwrk = $networkadapter | Get-NetworkAdapter
+    foreach ($ntwrk in $ntwrk_list)
+    {
+        Write-Host $ntwrk.Name
+    }
 }
 
 function get_config([string] $config_path)
