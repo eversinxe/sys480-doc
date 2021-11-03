@@ -91,12 +91,19 @@ function pick_network([string] $network)
 
 function get_config([string] $config_path)
 {
-
+    $Global:config = (Get-Content $config_path) | ConvertFrom-Json
 }
 
 function cloner($config_path)
 {
-
+    get_config($config_path)
+    $server = Read-Host "Which server would you like to chopose? ["$global:config.vcenter_server"]"
+    Read-HostDefault($server)
+    connect($server)
+    pick_host
+    pick_datastore
+    pick_vm
+    pick_network
 }
 
 #temporary main
